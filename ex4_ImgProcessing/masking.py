@@ -37,8 +37,8 @@ def logoRegionOfInterest(imgLarge, imgSmall):
     return imgLarge
 
 
-img1 = cv2.imread("data\dog_backpack.jpg")
-img2 = cv2.imread("data/watermark_no_copy.png")
+img1 = cv2.imread("..\data\dog_backpack.jpg")
+img2 = cv2.imread("../data/watermark_no_copy.png")
 
 
 img2resized = resizeSmall(img1, img2)
