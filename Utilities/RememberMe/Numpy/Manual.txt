@@ -1,0 +1,6 @@
+https://www.w3schools.com/python/numpy/numpy_array_slicing.asp
+https://www.w3schools.com/python/numpy/numpy_array_slicing.asp
+https://www.w3schools.com/python/numpy/numpy_array_reshape.asp
+https://www.w3schools.com/python/numpy/numpy_array_join.asp
+https://www.w3schools.com/python/numpy/numpy_random_normal.asp
+https://www.w3schools.com/python/numpy/numpy_ufunc_differences.asp
