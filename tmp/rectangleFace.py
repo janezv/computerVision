@@ -23,23 +23,21 @@ def displayImg(img):
     # cv2.setWindowProperty("Img", cv2.WND_PROP_FULLSCREEN, cv2.WINDOW_FULLSCREEN) 
     cv2.imshow('Img',img)
 
-def returnHorseImg(x1,y1,x2,y2,img):
+def embedImg(x1,y1,x2,y2,img, imgSmall):
     w = abs(x1-x2)
     h = abs(y1-y2)
-    print("dodal bom konja")
-    imgHf=cv2.imread('HorseFace.jpg')
-    imgOut=imgHf.copy()
-    imgHf.shape[0]
-    imgHf.shape[1]
+    imgOut=imgSmall.copy()
+    imgSmall.shape[0]
+    imgSmall.shape[1]
     # print("Slika ime w = {0}, h= {1}".format(*[w,h]))
-    # print("Slika s konjem ima dimenzije w = {0}, h= {1}".format(*[imgHf.shape[0], imgHf.shape[1] ]))
-    if imgHf.shape[0] > w:
-        k=w/imgHf.shape[0]
-        imgOut=scaleImg(imgHf, k)
+    # print("Slika s konjem ima dimenzije w = {0}, h= {1}".format(*[imgSmall.shape[0], imgSmall.shape[1] ]))
+    if imgSmall.shape[0] > w:
+        k=w/imgSmall.shape[0]
+        imgOut=scaleImg(imgSmall, k)
     if imgOut.shape[1]> h:
-        k=h/imgHf.shape[1]
-        imgOut=scaleImg(imgHf, k)
-    return imgOut, imgOut.shape[0],imgOut.shape[1]
+        k=h/imgSmall.shape[1]
+        imgOut=scaleImg(imgSmall, k)
+    return imgOut, imgOut.shape[0], imgOut.shape[1]
    
 
 def manipulateImg(img, dimension ):
@@ -47,8 +45,13 @@ def manipulateImg(img, dimension ):
     
     # Read the last key press from the console input buffer
     if keyboard.is_pressed('h'):
-        imgOut, h,w=returnHorseImg(x-30,y-90,x+w+40, y+h+50,img)
+        imgHf = cv2.imread('HorseFace.jpg')
+        imgOut, h, w = embedImg(x-30,y-90,x+w+40, y+h+50,img, imgHf)
         img[y-90:y-90+h,x-30:x-30+w]=imgOut
+    elif keyboard.is_pressed('m'):
+        imgMf = cv2.imread('monkeyFace.jpg')
+        imgOut, h,w = embedImg(x-30,y-90,x+w+40, y+h+50,img, imgMf)
+        img[(y-75):(y-75+h),(x-30):(x-30+w)]=imgOut
     else:
         cv2.rectangle(img,(x-30,y-90),(x+w+40, y+h+50),(255,255,255),6)
     return img
