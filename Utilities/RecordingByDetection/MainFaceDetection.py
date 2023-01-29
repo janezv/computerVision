@@ -8,8 +8,6 @@ face_cascade=cv2.CascadeClassifier(cv2.data.haarcascades + "haarcascade_frontalf
 #body_cascade=cv2.CascadeClassifier(cv2.data.haarcascades + "haarcascade_upperbody.xml") zaznava telesa ne dela dobro
 
 detection=False
-detection_stopped_time=None
-SECONDS_TO_RECORD_AFTER_DETECTION = 5
 record_toggling=False
 # start_time, za namen štoparice --> meri 6 s od izginotja obraza
 start_time=datetime.now()
