@@ -8,6 +8,7 @@ while 1:
     b, img=video.read()
     
     face_cascade = cv2.CascadeClassifier('Util/DATA/haarcascades/haarcascade_frontalface_default.xml')
+    #face_cascade=cv2.CascadeClassifier(cv2.data.haarcascades + "haarcascade_frontalface_default.xml")
 
     imgManipulation=Manipulation.manipulation()
     imgL = imgManipulation.enlargeImg(img)
