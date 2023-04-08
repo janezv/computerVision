@@ -33,6 +33,7 @@ def draw_rectangle(event, x, y, flags, params):
 video = cv2.VideoCapture(1)
 cv2.namedWindow(winname = "Tracking Window")
 cv2.setMouseCallback('Tracking Window', draw_rectangle)
+b, img = video.read() # za vsak slučaj, da ga bo tracker za ziher videl
 while True:
     b, img = video.read()
     if drawing:
@@ -43,7 +44,7 @@ while True:
     if cv2.waitKey(10)==ord('q') or rioSet==True:
         break
 
-
+tracker = cv2.TrackerMIL_create() # Default tracker
 def ask_for_tracker():
     print("What Tracker API would you like to use?")
     print("0: ")
@@ -59,12 +60,31 @@ def ask_for_tracker():
     if choice == '2':
         tracker = cv2.TrackerCSRT_create()
     if choice == '3':
-        tracker = cv2.legacy_TrackerMOSSE()
+        tracker = cv2.TrackerKCF_create()
 
-# Default tracker agoritem
-tracker = cv2.TrackerCSRT_create()
 ask_for_tracker()
 
 rioImg=img[ys:ye, xs:xe]
-cv2.imshow('rio',rioImg)
-cv2.waitKey()
+bbox=(xs,ys,xe-xs,ye-ys)
+success = tracker.init(img, bbox)
+
+while True:
+    success, frame = video.read()
+
+    # Update tracker with new frame
+    success, bbox = tracker.update(frame)
+
+    # Draw bounding box on frame
+    if success:
+        x, y, w, h = [int(i) for i in bbox]
+        cv2.rectangle(frame, (x, y), (x + w, y + h), (0, 255, 0), 2)
+
+    # Display result
+    cv2.imshow('Tracking Window', frame)
+
+    if cv2.waitKey(1) == ord('q'):  # Esc key
+        break
+
+# Release resources
+video.release()
+cv2.destroyAllWindows()
