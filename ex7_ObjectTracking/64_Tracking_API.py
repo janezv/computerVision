@@ -30,7 +30,7 @@ def draw_rectangle(event, x, y, flags, params):
         return 
     
     
-video = cv2.VideoCapture(1)
+video = cv2.VideoCapture(0)
 cv2.namedWindow(winname = "Tracking Window")
 cv2.setMouseCallback('Tracking Window', draw_rectangle)
 b, img = video.read() # za vsak slučaj, da ga bo tracker za ziher videl
