@@ -58,13 +58,15 @@ def resize_images(folder_path, target_width, target_height):
                 print(f"Error processing {filename}: {e}")
 
 
-def assembleVideo(folder_path):
+def assembleVideo(folder_path, intervarl=1):
     output_video = folder_path+'/output_video.avi'
 
     # Get all PNG files in the folder
     png_files = [f for f in os.listdir(
         folder_path) if f.endswith('.png') or f.endswith('.jpg')]
     png_files.sort()
+    duplicateLastImage = png_files[-1]
+    png_files.append(duplicateLastImage)
     if len(png_files) == 0:
         print("Ni slik v mapi !!! MAPA JE PRAZNA")
         return
@@ -73,8 +75,10 @@ def assembleVideo(folder_path):
         averageIntHeight = int(averageHeight)
         averageIntWidth = int(averageWidth)
         resize_images(folder_path, averageIntHeight, averageIntWidth)
-        fps = 1  # Set the frame rate (frames per second)
+        fps = intervarl  # Set the frame rate (frames per second)
         # Define video codec and create VideoWriter object
+        if os.path.exists(output_video):
+            os.remove(output_video)
         fourcc = cv2.VideoWriter_fourcc(*'XVID')
         video_writer = cv2.VideoWriter(
             output_video, fourcc, fps, (averageIntHeight, averageIntWidth))
