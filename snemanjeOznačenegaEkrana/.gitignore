@@ -2,5 +2,5 @@ snemajEkran/Images/
 assemble Video From Images/Images/
 Images/
 __pycache__/
-*.jpg
-*.avi
+**/*.jpg
+**/*.png
