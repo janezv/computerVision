@@ -1,32 +1,29 @@
-from pynput.mouse import Listener
-from PIL import ImageGrab
+import cv2
 
-start_x, start_y, end_x, end_y = 0, 0, 0, 0
+# Function to capture screenshot
+count_images: int = 0
 
+# Open webcam
+cap = cv2.VideoCapture(1)
 
-def on_click(x, y, button, pressed):
-    global start_x, start_y, end_x, end_y
-    if button == button.left:
-        if pressed:
-            start_x, start_y = x, y
-            print('Označi')
-        else:
-            end_x, end_y = x, y
-            print('Left mouse button pressed at ({0}, {1})'.format(
-                start_x, start_y))
-            print('Left mouse button released at ({0}, {1})'.format(
-                end_x, end_y))
-            # Take a screenshot
-            # ImageGrab.grab(bbox=(left, top, right, bottom))
-            screenshot = ImageGrab.grab(bbox=(start_x, start_y, end_x, end_y))
+while True:
 
-            # Save the screenshot as an image file
-            screenshot.save('scrShot.jpg')
-            return False  # Stop listener
+    # Capture frame-by-frame
+    ret, frame = cap.read()
 
+    # Display the resulting frame
+    cv2.imshow('Webcam', frame)
 
-print("Program za PrintScreen. Začni.")
+    # Check for key press
+    key = cv2.waitKey(1)
+    if key == ord('q'):  # Quit when 'q' is pressed
+        break
+    elif key == ord('a'):  # Capture screenshot when 'a' is pressed
+        count_images = count_images+1
+        count_str = str(count_images)
+        cv2.imwrite('screenshot'+count_str+'.png', frame)
+        print("Screenshot saved")
 
-# Start mouse listener
-with Listener(on_click=on_click) as listener:
-    listener.join()  # Blocking call
+# Release the capture
+cap.release()
+cv2.destroyAllWindows()
